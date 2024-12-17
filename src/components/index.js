@@ -1,0 +1,16 @@
+export { default as LoginComponent } from './LoginComponent.vue';
+export { default as RoleComponent } from './Role/RoleComponent.vue';
+export { default as HeaderComponent } from './HeaderComponent.vue';
+export { default as NavbarComponent } from './NavbarComponent.vue';
+export { default as SizeComponent } from './Size/SizeComponent.vue';
+export { default as UserComponent } from './User/UserComponent.vue';
+export { default as StockComponent } from './Stock/StockComponent.vue';
+export { default as ClientComponent } from './Client/ClientComponent.vue';
+export { default as ProductComponent } from './Product/ProductComponent.vue';
+export { default as CategoryComponent } from './Category/CategoryComponent.vue';
+export { default as SupplierComponent } from './Supplier/SupplierComponent.vue';
+export { default as ExportInvoiceComponent } from './ExportInvoice/ExportInvoiceComponent.vue';
+export { default as ImportInvoiceComponent } from './Import Invoice/ImportInvoiceComponent.vue';
+export { default as ProductVariantComponent } from './ProductVariant/ProductVariantComponent.vue';
+export { default as StockMovementComponent } from './StockMovement/StockMovementComponent.vue';
+export { default as ClientProfileComponent } from './Client/ClientProfileComponent.vue';
