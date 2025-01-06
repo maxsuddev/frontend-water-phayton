@@ -35,7 +35,7 @@
         :totalPages="totalPages"
         @page-change="changePage"
     />
-  <div class="modal fade" id="editModal" ref="modal" tabindex="-1">
+  <!-- <div class="modal fade" id="editModal" ref="modal" tabindex="-1">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -44,9 +44,16 @@
         </div>
         <div class="modal-body">
           <form @submit.prevent="handleEditCategory">
-            <InputItemComponent label="Name" type="text" placeholder="Name" v-model="name" />
-            <p v-if="errors.name" class="text-danger">{{ errors.name[0] }}</p>
-            <InputItemComponent label="Description" type="text" placeholder="Description" v-model="description" />
+            <InputItemComponent
+             label="Name" type="text"
+              placeholder="Name"
+               v-model="name"
+               :errors="errors.name[0]" />
+            <InputItemComponent label="Description"
+             type="text" placeholder="Description"
+              v-model="description"
+              :errors="errors.description[0]"
+              />
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               <button :disabled="lod" type="submit" class="btn btn-primary">Save changes</button>
@@ -55,7 +62,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
 </template>
 

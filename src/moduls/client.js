@@ -3,6 +3,11 @@ import ClientService from "@/services/client.js";
 const state = {
     clients: [],
     messageClient: '',
+    totalPagesClient: null,
+    countClient: null,
+    currentPageClient: null,
+    perPageClient: null,
+    searchQueryClient: '',
     errorMessageClient: '',
     errorClient: {},
     client: {},
@@ -11,6 +16,9 @@ const state = {
 
 const getters = {
     getClientById: (state) => state.client,
+    totalCountClient: (state) => state.countClient,
+    totalPagesClient: (state) => state.totalPagesClient,
+    currentPageClient: (state) => state.currentPageClient,
     allClient: (state) => state.clients,
     messageClient: (state) => state.messageClient,
     getErrorClient: (state) => state.errorClient,
@@ -18,24 +26,32 @@ const getters = {
 };
 
 const actions = {
-    async fetchClients({ commit }) {
-        try {
-            const response = await  ClientService.getAllClient();
-            commit('setClients', response.data.data);
-        } catch (error) {
-        }
-    },
-    async fetchClientById({ commit }, clientId) {
+    async fetchClients({ commit, state }){
         commit('setLoadingClient', true);
         try {
-            const response = await ClientService.getClientById(clientId);
-               return response.data.data
+            const response = await ClientService.getAllClients({
+                page: state.currentPageClient,
+                per_page: state.perPageClient,
+                search: state.searchQueryClient,
+            });
+            commit('setClients', response.data.data);
+            commit('setPaginationClient', response.data.meta);
         } catch (error) {
             console.error(error);
-        }finally {
+            commit('errorMessageClient', 'Failed to fetch clients.');
+        } finally {
             commit('setLoadingClient', false);
-
         }
+    },
+
+    changePageClient({ commit, dispatch }, page) {
+        commit('setCurrentPageClient', page);
+        dispatch('fetchClients');
+    },
+    async searchClients({ commit, dispatch }, searchQuery) {
+        commit('setSearchQueryClient', searchQuery);
+        commit('setCurrentPageClient', 1);
+        dispatch('fetchClients');
     },
 
     async addClient({ commit }, newClient) {
@@ -98,6 +114,19 @@ const mutations = {
      setClientById (state, client) {
         state.client = client;
 },
+    setPaginationClient(state, pagination) {
+        state.totalPagesClient = pagination.total_pages;
+        state.currentPageClient = pagination.current_page;
+        state.perPageClient = pagination.per_page;
+        state.countClient = pagination.total
+    },
+    setCurrentPageClient(state, current_page) {
+        state.currentPageClient = current_page;
+    },
+
+    setSearchQueryClient(state, query) {
+        state.searchQueryClient = query;
+    },
     addClient(state, client) {
         state.clients.push(client);
     },

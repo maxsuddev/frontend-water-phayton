@@ -33,7 +33,7 @@ const actions = {
                 per_page: state.perPage,
                 search: state.searchQuery,
             });
-            console.log('User', response.data.meta.pagination)
+            console.log('User', response.data)
 
             commit('setUsers', response.data.users);
             commit('setPaginationUsers', response.data.meta.pagination);

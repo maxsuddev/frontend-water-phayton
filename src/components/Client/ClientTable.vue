@@ -1,12 +1,14 @@
 <!-- ClientTable.vue -->
 <template>
-  <div>
-    <!-- Table with Clients -->
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Clients</h5>
-        <table class="table datatable">
-          <thead>
+
+  <TableHeaderComponent
+      v-model:searchQuery="searchQuery"
+      @search="search"
+  />
+
+  <div class="datatable-container">
+    <table class="table datatable datatable-table">
+      <thead>
           <tr>
             <th>ID</th>
             <th>Name</th>
@@ -30,28 +32,38 @@
                 class="btn btn-info">
               Client Profile
             </router-link>
-
               <DeleteButton :onDelete="() => deleteClient(client.id)" :isLoading="lod"/>
             </td>
           </tr>
           </tbody>
         </table>
-      </div>
-    </div>
+  </div>
+  <TableBottomComponent
+      :totalEntries="totalEntries"
+      :currentPage="currentPage"
+      :totalPagesArray="totalPagesArray"
+      :maxVisiblePages="maxVisiblePages"
+      :totalPages="totalPages"
+      @page-change="changePage"
+  />
 
     <!-- Edit Client Modal -->
-  </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
-import {DeleteButton} from "@/ui-components/index.js";
+import {DeleteButton, TableBottomComponent, TableHeaderComponent} from "@/ui-components/index.js";
 
 const store = useStore();
 const clients = computed(() => store.getters.allClient);
 const errors = computed(() => store.getters.getErrorClient);
 const lod = computed(() => store.state.client.isLoadingClient);
+const currentPage = computed(() => store.getters.currentPageClient);
+const totalPages = computed(() => store.getters.totalPagesClient); // Fallback to 1
+const totalEntries = computed(() => store.getters.totalCountClient);
+const searchQuery = ref('');
+const maxVisiblePages = 5;
 
 const currentClient = ref(null);
 const name = ref('');
@@ -96,4 +108,22 @@ const deleteClient = async (clientId) => {
     await store.dispatch('deleteClient', clientId);
   }
 };
+
+
+const totalPagesArray = computed(() => {
+  const totalPagesValue = totalPages.value ;
+  return Array.from({ length: totalPagesValue }, (_, i) => i + 1);
+});
+
+
+const changePage = (page) => {
+  if (page > 0 && page <= totalPages.value) {
+    store.dispatch('changePageClient', page);
+  }
+};
+
+const search = () => {
+  store.dispatch('searchClients', searchQuery.value);
+};
+
 </script>

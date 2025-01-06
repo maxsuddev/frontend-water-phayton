@@ -35,6 +35,7 @@ import InputItemComponent from "@/ui-components/InputItemComponent.vue";
 
 const store = useStore();
 const errors = computed(() => store.getters.getErrorUser);
+const roles = computed(() => store.getters.allRoles)
 const lod = computed(() => store.state.user.isLoadingUser);
 const newUser = ref({
   username: '',

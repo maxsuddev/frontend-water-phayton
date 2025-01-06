@@ -46,6 +46,7 @@ const actions = {
         commit('setLoadingExportInvoice', true);
         try {
             const response =   await ExportInvoiceService.editExportInvoice(updatedExportInvoice);
+            console.log(response.data)
             commit('updatedExportInvoice', updatedExportInvoice);
             commit('messageExportInvoice', response.data.message);
             commit('clearMessageExportInvoice')

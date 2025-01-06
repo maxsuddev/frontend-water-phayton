@@ -39,7 +39,7 @@ const handleAddSize = async () => {
   await store.dispatch('fetchSizes');
   if (store.getters.errorMessageSize.length === 0) {
     const bsModal = bootstrap.Modal.getInstance(modal.value);
-    bsModal.hide()
+    bsModal.hide();
   }
 };
 </script>

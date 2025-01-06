@@ -59,7 +59,7 @@
                 </thead>
                 <tbody>
                 <tr v-for="(item, index) in items" :key="index">
-                  <td>{{ getVariantName(item.variant)  }}</td>
+                  <td>{{ item.variant.product_data.product_name  }}</td>
                   <td>
                     <span v-if="!item.isEditing">{{ item.quantity }}</span>
                     <input
@@ -111,7 +111,7 @@
                             :value="product.id"
                             @keydown.enter.prevent="addItem"
                     >
-                      {{ product.product_data.product_name }} ({{ product.size_data.size_name }})
+                      {{ product.product_data.product_name }}
                     </option>
                   </select>
                 </div>
@@ -192,6 +192,7 @@ onMounted(() => {
   if (savedItems) {
     items.value = savedItems;
   }
+  store.dispatch('fetchProductVariants')
 });
 
 const openEditModal = (selectedExportInvoice) => {
